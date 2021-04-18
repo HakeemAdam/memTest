@@ -12,8 +12,12 @@ var five = "03 19'W 54 31'N"
 var six = "03 19'W 54 31'N"
 var seven = "00 09'E 50 45'N"
 
-var snd1;
-var snd2;
+var snd1
+var snd2
+var sounds = []
+
+const PATH = 'assets/', FILE = 'riv', EXT = '.mp3'
+
 
 function preload() {
   img = loadImage('one.svg')
@@ -21,12 +25,20 @@ function preload() {
 
   snd1 = loadSound('riv.mp3')
   snd2 = loadSound('riv1.mp3')
+  snd3 = loadSound('riv2.mp3')
+  snd4 = loadSound('riv3.mp3')
+
+  //for (var i = 0; i < 4; i++) {
+  // sounds[i] = loadSound(PATH + FILE + ++i + EXT)
+  // }
 }
 
 function setup() {
 
   createCanvas(windowWidth, windowHeight)
   background(255)
+
+  sounds = [snd1, snd2, snd3, snd4]
 
   textSize(24)
   typeWriter(intro, 0, random(width / 2), height / 2, random(400))
@@ -41,6 +53,7 @@ function setup() {
 }
 
 function draw() {
+
   stroke(0)
   line(width / 5, 0, width / 5, frameCount * 0.5)
 
@@ -59,13 +72,24 @@ function typeWriter(sentence, n, x, y, speed) {
 
 function mousePressed() {
 
+  randomSound = Math.floor(Math.random() * sounds.length)
   if (mouseButton === LEFT) {
     cur = image(moon, mouseX, mouseY)
     cur
-    snd1.play()
-  }
-  if (mouseButton === RIGHT) {
-    snd1.stop()
+    sounds[randomSound].play()
+    if (sounds[randomSound].isPlaying()) {
+      stroke(0)
+      line(width / 2, 0, width / 2, sounds[randomSound].currentTime())
+    }
+    return randomSound
   }
 
 }
+
+function keyPressed() {
+
+  if (keyCode === ENTER) {
+    sounds[randomSound].stop()
+  }
+}
+
