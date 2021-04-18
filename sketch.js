@@ -16,10 +16,13 @@ var snd1
 var snd2
 var sounds = []
 
+let ft
+
 const PATH = 'assets/', FILE = 'riv', EXT = '.mp3'
 
 
 function preload() {
+  ft = loadFont('Cairo-Regular.ttf')
   img = loadImage('one.svg')
   moon = loadImage('moon.svg')
 
@@ -37,26 +40,25 @@ function setup() {
 
   createCanvas(windowWidth, windowHeight)
   background(255)
+  textFont('Cairo')
+  smooth()
+  textSize(24)
 
   sounds = [snd1, snd2, snd3, snd4]
+  txt = [one, two, three, four, five, six, seven]
 
-  textSize(24)
   typeWriter(intro, 0, random(width / 2), height / 2, random(400))
-  typeWriter(one, 1, random(width / 2), random(height), random(400))
-  typeWriter(two, 2, random(width / 2) + 100, random(height), random(400))
-  typeWriter(three, 2, random(width / 2) + 100, random(height), random(400))
-  typeWriter(four, 3, random(width / 2) + 80, random(height), random(400))
-  typeWriter(five, 3, random(width / 2) + 80, random(height), random(400))
-  typeWriter(six, 3, random(width / 2) + 80, random(height), random(400))
-  typeWriter(seven, 3, random(width / 2) + 80, random(height), random(400))
+  for (var i = 0; i < txt.length; i++) {
+    typeWriter(txt[i], 1, random(width / 2), random(height) + 100, random(400))
+
+  }
+
 
 }
 
 function draw() {
-
   stroke(0)
   line(width / 5, 0, width / 5, frameCount * 0.5)
-
 }
 
 
@@ -70,17 +72,16 @@ function typeWriter(sentence, n, x, y, speed) {
   }
 }
 
+
+
+
+
 function mousePressed() {
 
   randomSound = Math.floor(Math.random() * sounds.length)
   if (mouseButton === LEFT) {
-    cur = image(moon, mouseX, mouseY)
-    cur
+    image(moon, mouseX, mouseY)
     sounds[randomSound].play()
-    if (sounds[randomSound].isPlaying()) {
-      stroke(0)
-      line(width / 2, 0, width / 2, sounds[randomSound].currentTime())
-    }
     return randomSound
   }
 
@@ -92,4 +93,3 @@ function keyPressed() {
     sounds[randomSound].stop()
   }
 }
-
